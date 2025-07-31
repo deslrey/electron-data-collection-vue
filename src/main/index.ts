@@ -1,7 +1,9 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
+import { app, shell, BrowserWindow, ipcMain, session } from 'electron'
+import path, { join } from 'path'
+import fs from 'fs'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { exec } from 'child_process'
 
 function createWindow(): void {
   // Create the browser window.
@@ -13,7 +15,8 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      webviewTag: true
     }
   })
 
@@ -70,5 +73,36 @@ app.on('window-all-closed', () => {
   }
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+// 监听渲染进程的消息
+ipcMain.handle('run-user-crawl', async () => {
+  return new Promise((resolve, reject) => {
+    const scriptPath = path.join(process.cwd(), 'src/userScripts/user-crawl-3.js')
+    exec(`node "${scriptPath}"`, (error, stdout, stderr) => {
+      if (error) {
+        resolve({ success: false, error: stderr || error.message })
+      } else {
+        // 尝试解析 JSON
+        try {
+          const data = JSON.parse(stdout)
+          resolve({ success: true, data })
+        } catch (e) {
+          const match = stdout.match(/===JSON_START===(.*?)===JSON_END===/s)
+          if (match) {
+            const jsonStr = match[1].trim()
+            const data = JSON.parse(jsonStr)
+            resolve({ success: true, data })
+          } else {
+            resolve({ success: false, error: '未找到有效的JSON: ' + stdout })
+          }
+        }
+      }
+    })
+  })
+})
+
+ipcMain.handle('save-session-data', async (event, { url, storage }) => {
+  const cookies = await session.defaultSession.cookies.get({ url })
+  fs.writeFileSync('cookies.json', JSON.stringify(cookies, null, 2))
+  fs.writeFileSync('storage.json', JSON.stringify(storage, null, 2))
+  return { success: true }
+})
