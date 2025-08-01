@@ -16,7 +16,9 @@
                     <div>Header</div>
                 </el-header>
                 <el-main class="container-main">
-                    <div><router-view /></div>
+                    <div class="router-view-wrapper">
+                        <router-view />
+                    </div>
                 </el-main>
             </el-container>
         </el-container>
@@ -57,16 +59,20 @@ watch(() => route.path, (newPath) => {
 
 .container-layout {
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    flex: 1;
+    height: 100%;
+    width: 100%;
     background-color: #f5f7fa;
+    overflow: hidden;
 
     .container-aside {
-        width: 18%;
+        min-width: 100px;
+        max-width: 200px;
         padding: @padding;
         background-color: #f8f8f8;
         border-right: 1px solid #d0d4db;
         box-sizing: border-box;
+        flex-shrink: 0;
 
         .container-aside-menu {
             width: 100%;
@@ -75,21 +81,41 @@ watch(() => route.path, (newPath) => {
     }
 
     .container-right {
-        flex: 1;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        min-width: 0;
+        overflow: hidden;
 
         .container-header {
-            height: 5vh;
+            height: 5%;
             padding: @padding;
             background-color: #f8f8f8;
             border-bottom: 1px solid #d0d4db;
             box-sizing: border-box;
-
+            flex-shrink: 0;
         }
 
         .container-main {
-            padding: @padding;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin: 0;
+            padding: 0;
             background-color: #ffffff;
-            overflow-y: auto;
+            overflow: hidden;
+            min-width: 0;
+
+            .router-view-wrapper {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                min-height: 0;
+                overflow: hidden;
+            }
         }
     }
 }
