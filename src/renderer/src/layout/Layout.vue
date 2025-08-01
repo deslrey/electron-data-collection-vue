@@ -9,7 +9,7 @@
                     <div>Header</div>
                 </el-header>
                 <el-main class="container-main">
-                    <div>主内容</div>
+                    <div><router-view /></div>
                 </el-main>
             </el-container>
         </el-container>
