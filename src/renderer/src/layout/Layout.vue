@@ -2,7 +2,14 @@
     <div class="container-layout">
         <el-container>
             <el-aside class="container-aside">
-                <div>Aside</div>
+                <div>
+                    <el-menu v-model:openeds="openMenus" :default-active="route.path" class="el-menu-vertical-demo"
+                        background-color="#ffffff" text-color="#333" active-text-color="#4e54c8" router unique-opened>
+                        <template v-for="item in menus" :key="item.path">
+                            <MenuItem :item="item" />
+                        </template>
+                    </el-menu>
+                </div>
             </el-aside>
             <el-container class="container-right">
                 <el-header class="container-header">
@@ -17,6 +24,30 @@
 </template>
 
 <script setup lang="ts">
+import { MenuItem } from '@renderer/components/menu/MenuComponent';
+import { asideRoutes } from '@renderer/router/inedx';
+import { generateMenus } from '@renderer/utils/RouteMenu';
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router';
+
+const menus = generateMenus(asideRoutes)
+const route = useRoute()
+const openMenus = ref<string[]>([])
+
+
+watch(() => route.path, (newPath) => {
+    const segments = newPath.split('/').filter(Boolean)
+    const openPaths: string[] = []
+    if (segments.length > 1) {
+        openPaths.push('/' + segments[0])
+        openPaths.push('/' + segments.slice(0, 2).join('/'))
+    } else if (segments.length === 1) {
+        openPaths.push('/' + segments[0])
+    }
+    openMenus.value = openPaths
+
+
+}, { immediate: true })
 
 </script>
 
