@@ -52,17 +52,15 @@ import TaskAsideComponent from '@renderer/components/task/TaskAsideComponent.vue
 
     .taskview-container {
         height: 100%;
-        background-color: antiquewhite;
         min-width: 0;
         overflow: hidden;
         display: flex;
         flex-direction: column;
 
         .taskview-container-header {
-            background-color: aqua;
             flex-shrink: 0;
             padding: 0;
-            border: 1px solid #d0d4db;
+            border-bottom: 1px solid #d0d4db;
         }
 
         .taskview-container-splitter {
@@ -71,33 +69,29 @@ import TaskAsideComponent from '@renderer/components/task/TaskAsideComponent.vue
             overflow: hidden;
 
             .taskview-container-main {
-                background-color: aquamarine;
                 height: 100%;
                 min-width: 0;
                 overflow: auto;
-                padding: 0;
-                border: 1px solid #d0d4db;
+                padding: 2px;
             }
 
             .taskview-container-footer {
                 height: 100%;
-                background-color: blueviolet;
                 flex-shrink: 0;
                 min-width: 0;
-                padding: 0;
-                border: 1px solid #d0d4db;
+                padding: 2px;
+
             }
         }
 
     }
 
     .taskview-container-aside {
-        background-color: beige;
         height: 100%;
         width: 100%;
         min-width: 0;
         overflow: auto;
-        border: 1px solid #d0d4db;
+        padding: 2px;
     }
 }
 </style>

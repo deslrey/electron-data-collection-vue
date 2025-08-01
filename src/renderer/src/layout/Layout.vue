@@ -102,8 +102,8 @@ watch(() => route.path, (newPath) => {
             display: flex;
             flex-direction: column;
             width: 100%;
-            margin: 0;
-            padding: 0;
+            margin: 4px;
+            padding: 2px;
             background-color: #ffffff;
             overflow: hidden;
             min-width: 0;
