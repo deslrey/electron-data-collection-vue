@@ -1,5 +1,7 @@
 <template>
-    <RouterView />
+    <div>
+        我是UserView模板
+    </div>
 </template>
 
 <script setup lang="ts">
