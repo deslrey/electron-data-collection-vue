@@ -3,8 +3,8 @@
         <el-container>
             <el-aside class="container-aside">
                 <div>
-                    <el-menu v-model:openeds="openMenus" :default-active="route.path" class="el-menu-vertical-demo"
-                        background-color="#ffffff" text-color="#333" active-text-color="#4e54c8" router unique-opened>
+                    <el-menu v-model:openeds="openMenus" :default-active="route.path" class="container-aside-menu"
+                        background-color="#f8f8f8" text-color="#333" active-text-color="#4e54c8" router unique-opened>
                         <template v-for="item in menus" :key="item.path">
                             <MenuItem :item="item" />
                         </template>
@@ -67,6 +67,11 @@ watch(() => route.path, (newPath) => {
         background-color: #f8f8f8;
         border-right: 1px solid #d0d4db;
         box-sizing: border-box;
+
+        .container-aside-menu {
+            width: 100%;
+            border-right: none;
+        }
     }
 
     .container-right {
