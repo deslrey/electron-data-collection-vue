@@ -42,6 +42,16 @@ import TaskAsideComponent from '@renderer/components/task/TaskAsideComponent.vue
 </script>
 
 <style scoped lang="less">
+:deep(.el-container),
+:deep(.el-splitter),
+:deep(.el-splitter-panel),
+:deep(.el-main),
+:deep(.el-footer),
+:deep(.el-aside) {
+    height: 100%;
+    min-height: 0;
+}
+
 .taskview-layout {
     flex: 1;
     display: flex;
@@ -65,15 +75,20 @@ import TaskAsideComponent from '@renderer/components/task/TaskAsideComponent.vue
 
         .taskview-container-splitter {
             flex: 1;
-            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
             overflow: hidden;
 
             .taskview-container-main {
-                height: 100%;
-                min-width: 0;
+                display: flex;
+                flex: 1;
                 overflow: auto;
                 padding: 2px;
+                min-width: 0;
+                min-height: 0;
             }
+
 
             .taskview-container-footer {
                 height: 100%;
